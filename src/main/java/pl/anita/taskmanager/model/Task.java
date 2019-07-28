@@ -27,19 +27,21 @@ public class Task {
     @NotBlank
     @Column(columnDefinition = "text")
     private String message;
-    @NotBlank
+
     private LocalDate dateStart = LocalDate.now();
-    @NotBlank
+
     @Column(name = "task_interval")
     private Integer interval;
     @ManyToMany
     @JoinTable(
             name = "task_employee",
-            joinColumns = @JoinColumn(name= "task_id"),
-            inverseJoinColumns = @JoinColumn(name= "employee_id")
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
     List<User> users = new ArrayList<>();
-    @ManyToOne()
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "project_id")
     // pole o nazwie jak w mappedBy
     private Project project;

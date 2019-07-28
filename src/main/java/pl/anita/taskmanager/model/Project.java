@@ -1,5 +1,6 @@
 package pl.anita.taskmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,10 @@ public class Project {
     private LocalDate dateStart;
     @NotNull
     private LocalDate dateStop;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            mappedBy = "project")
     private List<Task> tasks = new ArrayList<>();
 
     public Project(@NotBlank String acronim, @NotBlank String description, @NotBlank LocalDate dateStart, @NotBlank LocalDate dateStop) {
@@ -41,4 +45,6 @@ public class Project {
         this.dateStart = dateStart;
         this.dateStop = dateStop;
     }
+
+
 }

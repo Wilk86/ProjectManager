@@ -2,10 +2,7 @@ package pl.anita.taskmanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.anita.taskmanager.model.Project;
 import pl.anita.taskmanager.model.Task;
 import pl.anita.taskmanager.model.dto.ProjectDto;
@@ -62,7 +59,7 @@ public class ProjectController {
         return projectService.updateProjectStopDate(project_id, dateStop);
     }
 
-    @PostMapping("/task/create/{titel}&{message}&{dateStart}&{interval}&{project_id}")
+    @PostMapping("/task/create/{title}&{message}&{dateStart}&{interval}&{project_id}")
     public Task addTaskProject(
             @PathVariable String title,
             @PathVariable String message,
@@ -73,6 +70,22 @@ public class ProjectController {
         return projectService.createTask(new TaskDto(
                 title,message,dateStart,interval),project_id);
     }
+
+    @DeleteMapping("/task/delete/{task_id}")
+    private String deleteTaskById
+    (@PathVariable long task_id
+            ){
+        return "Task Deleted: " + projectService.removeTask(task_id);
+    }
+
+
+    @DeleteMapping("/project/delete/{project_id}")
+    private String deleteProjectById
+            (@PathVariable long project_id
+            ){
+        return "Project Deleted: " + projectService.removeProjectByRecursivle(project_id);
+    }
+
 
 
 }

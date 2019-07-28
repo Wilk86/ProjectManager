@@ -57,8 +57,9 @@ public class ProjectService {
         return new Project();
     }
 
-
+    // dodaj nowego taska do projektu
     public Task createTask(TaskDto taskDto, Long project_id){
+        // obiekt taska z przypisaniem do projektu
         Task task = new Task(
                 taskDto.getTitle(),
                 taskDto.getMessage(),
@@ -67,6 +68,23 @@ public class ProjectService {
                 projectRepository.getOne(project_id));
         return taskRepository.save(task);
 
+    }
+    // usuń taska z projektu
+    public Task removeTask(Long task_id){
+        // wyszukaj task po id
+        Task deleteTask =taskRepository.getOne(task_id);
+        // usuwam obiekt
+        taskRepository.delete(deleteTask);
+        // zwracam usunięty obiekt
+        return deleteTask;
+    }
+
+    // usuń  projektu i taska
+    public Project removeProjectByRecursivle(long project_id){
+        Project deleteProject = projectRepository.getOne(project_id);
+        projectRepository.delete(deleteProject);
+
+        return deleteProject;
     }
 
 }
